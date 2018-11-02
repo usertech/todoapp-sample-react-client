@@ -17,5 +17,6 @@ module.exports = {
 		'@usertech/neutrino-preset-eslint-prettier',
 		(neutrino) => neutrino.config.resolve.modules.add(neutrino.options.source),
 		'@usertech/neutrino-preset-react-storybook',
+		(neutrino) => neutrino.config.output.publicPath('/'),
 	],
 };

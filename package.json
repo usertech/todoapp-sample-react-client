@@ -12,10 +12,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^3.3.2",
     "@neutrinojs/react": "^8.3.0",
+    "date-fns": "^1.29.0",
+    "final-form": "^4.10.0",
     "neutrino": "^8.3.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-final-form": "^3.6.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "recompose": "^0.30.0",
+    "simple-object-validation": "^1.1.2",
     "styled-components": "^4.0.3",
     "styled-map": "^3.2.0-rc.1"
   },
@@ -29,6 +37,7 @@
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
+    "graphql-cli": "^2.17.0",
     "prettier": "^1.14.2"
   }
 }
