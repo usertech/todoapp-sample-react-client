@@ -1,0 +1,6 @@
+mutation UpdateTodoMutation($todoId: ID! $input: TodoInput!) {
+	updateTodo(id: $todoId input: $input) {
+		id
+		title
+	}
+}

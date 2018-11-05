@@ -1,21 +1,37 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import TodoForm from 'forms/TodoForm';
+import { Mutation } from 'react-apollo';
 
-const CreateTodoScreen = ({ handleAddTodo }) => {
+import CreateTodoMutation from './CreateTodoMutation.gql';
+
+const CreateTodoScreen = () => {
 	return (
-		<Route
-			render={({ history: { push } }) => {
+		<Mutation mutation={CreateTodoMutation}>
+			{(mutate, { loading }) => {
 				return (
-					<TodoForm
-						onAddTodo={(todoData) => {
-							handleAddTodo(todoData);
-							push('/todos');
+					<Route
+						render={({ history: { push } }) => {
+							return (
+								<TodoForm
+									onAddTodo={(todoData) => {
+										mutate({ variables: { input: todoData } })
+											.then(() => {
+												push('/todos');
+											})
+											.catch((error) => {
+												console.log(error);
+												window.alert(error.message);
+											});
+									}}
+									isBusy={loading}
+								/>
+							);
 						}}
 					/>
 				);
 			}}
-		/>
+		</Mutation>
 	);
 };
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { ApolloProvider } from 'react-apollo';
 
 import withTodos from 'decorators/withTodos';
+import apolloClient from './apolloClient';
 
 import DashboardScreen from 'screens/DashboardScreen';
 import CreateTodoScreen from 'screens/CreateTodoScreen';
@@ -13,36 +15,38 @@ const renderApp = ({ todos, handleTodoCompleteChange, handleAddTodo, handleUpdat
 	const withTodosProps = { todos, handleTodoCompleteChange, handleAddTodo, handleUpdateTodo };
 	return (
 		<div>
-			<BrowserRouter>
-				<Switch>
-					<Route
-						path="/todos"
-						exact
-						render={() => {
-							return <DashboardScreen {...withTodosProps} />;
-						}}
-					/>
-					<Route
-						path="/todos/new"
-						exact
-						render={() => {
-							return <CreateTodoScreen {...withTodosProps} />;
-						}}
-					/>
-					<Route
-						path="/todos/:todoId"
-						exact
-						render={({
-							match: {
-								params: { todoId },
-							},
-						}) => {
-							return <TodoDetailScreen todoId={todoId} {...withTodosProps} />;
-						}}
-					/>
-					<Redirect to="/todos" />
-				</Switch>
-			</BrowserRouter>
+			<ApolloProvider client={apolloClient}>
+				<BrowserRouter>
+					<Switch>
+						<Route
+							path="/todos"
+							exact
+							render={() => {
+								return <DashboardScreen {...withTodosProps} />;
+							}}
+						/>
+						<Route
+							path="/todos/new"
+							exact
+							render={() => {
+								return <CreateTodoScreen {...withTodosProps} />;
+							}}
+						/>
+						<Route
+							path="/todos/:todoId"
+							exact
+							render={({
+								match: {
+									params: { todoId },
+								},
+							}) => {
+								return <TodoDetailScreen todoId={todoId} {...withTodosProps} />;
+							}}
+						/>
+						<Redirect to="/todos" />
+					</Switch>
+				</BrowserRouter>
+			</ApolloProvider>
 		</div>
 	);
 };

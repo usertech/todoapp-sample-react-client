@@ -1,0 +1,7 @@
+projects:
+  app:
+    schemaPath: ./schema.graphql
+    includes: ["**/*.graphql", "**/*.gql"]
+    extensions:
+      endpoints:
+        remote: http://127.0.0.1:3000

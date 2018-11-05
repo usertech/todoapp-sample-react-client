@@ -3,6 +3,7 @@ module.exports = {
 		[
 			'@neutrinojs/react',
 			{
+				hot: false,
 				html: {
 					title: 'my app',
 					links: [
@@ -18,5 +19,17 @@ module.exports = {
 		(neutrino) => neutrino.config.resolve.modules.add(neutrino.options.source),
 		'@usertech/neutrino-preset-react-storybook',
 		(neutrino) => neutrino.config.output.publicPath('/'),
+		(neutrino) => {
+			neutrino.config.module
+				.rule('graphql')
+				.test(/\.(graphqls?|gql)$/)
+				.include.add(/src/)
+				.end()
+				.use('graphql')
+				.loader('graphql-tag/loader')
+				.end()
+				.end()
+				.end();
+		},
 	],
 };

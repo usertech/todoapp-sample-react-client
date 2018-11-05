@@ -2,15 +2,23 @@ import React from 'react';
 import { toRenderProps } from 'recompose';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { Query } from 'react-apollo';
 
 import withCurrentTime from 'decorators/withCurrentTime';
 import Todo from 'components/Todo';
+
+import DashboardScreenQuery from './DashboardScreenQuery.gql';
 
 const CurrentTime = toRenderProps(withCurrentTime);
 
 const DashboardScreen = ({ todos, handleTodoCompleteChange }) => {
 	return (
 		<div>
+			<Query query={DashboardScreenQuery} fetchPolicy="cache-and-network">
+				{({ loading, data }) => {
+					return <pre>{JSON.stringify({ loading, data }, null, 2)}</pre>;
+				}}
+			</Query>
 			<Link to="/todos/new">Create Todo</Link>
 			<h1>Todo</h1>
 			<hr />

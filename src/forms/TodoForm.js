@@ -3,32 +3,37 @@ import { Form, Field } from 'react-final-form';
 import Button from 'components/Button';
 import DatePicker from 'form-controls/DatePicker';
 import { assemble, isRequired, validator, chain } from 'simple-object-validation';
-import { isAfter, isDate, endOfDay, startOfDay, isBefore, addDays } from 'date-fns';
+// import { isAfter, isDate, endOfDay, startOfDay, isBefore, addDays } from 'date-fns';
 
-const isDateInFuture = validator(
-	(value) => {
-		return !isDate(value) || isAfter(endOfDay(value), startOfDay(new Date()));
-	},
-	(param, name) => `${name} has to be in future`,
-);
+// const isDateInFuture = validator(
+// 	(value) => {
+// 		return !isDate(value) || isAfter(endOfDay(value), startOfDay(new Date()));
+// 	},
+// 	(param, name) => `${name} has to be in future`,
+// );
 
-const thereIsEnoughTimeForThat = validator(
-	(value, param, { dueAt, estimatedDuration }) => {
-		return (
-			!isDate(dueAt) || !estimatedDuration || isBefore(addDays(value, estimatedDuration), dueAt)
-		);
-	},
-	() => `There is not enough time for that`,
-);
+// const thereIsEnoughTimeForThat = validator(
+// 	(value, param, { dueAt, estimatedDuration }) => {
+// 		return (
+// 			!isDate(dueAt) || !estimatedDuration || isBefore(addDays(value, estimatedDuration), dueAt)
+// 		);
+// 	},
+// 	() => `There is not enough time for that`,
+// );
 
 const validateFormData = assemble({
 	title: isRequired('Title'),
-	description: isRequired('Description'),
-	dueAt: chain([isRequired, isDateInFuture])('Due date'),
-	scheduledAt: thereIsEnoughTimeForThat('Scheduled at'),
+	// description: isRequired('Description'),
+	// dueAt: chain([isRequired, isDateInFuture])('Due date'),
+	// scheduledAt: thereIsEnoughTimeForThat('Scheduled at'),
 });
 
-const TodoForm = ({ onAddTodo: handleAddTodo, onEditTodo: handleEditTodo, initialValues }) => {
+const TodoForm = ({
+	onAddTodo: handleAddTodo,
+	onEditTodo: handleEditTodo,
+	initialValues,
+	isBusy,
+}) => {
 	return (
 		<Form
 			onSubmit={(values, { reset }) => {
@@ -59,7 +64,7 @@ const TodoForm = ({ onAddTodo: handleAddTodo, onEditTodo: handleEditTodo, initia
 							);
 						}}
 					</Field>
-					<Field name="description">
+					{/* <Field name="description">
 						{({ input, meta: { error, submitFailed } }) => {
 							return (
 								<div>
@@ -110,9 +115,15 @@ const TodoForm = ({ onAddTodo: handleAddTodo, onEditTodo: handleEditTodo, initia
 								</div>
 							);
 						}}
-					</Field>
+					</Field> */}
 					<div>
-						<Button>Create Todo</Button>
+						<Button>
+							{isBusy
+								? 'Saving...'
+								: initialValues && initialValues.id
+									? 'Update Todo'
+									: 'Create Todo'}
+						</Button>
 					</div>
 				</form>
 			)}

@@ -1,0 +1,6 @@
+query TodoDetailScreenQuery($todoId: ID!) {
+	todo(id: $todoId) {
+		id
+		title
+	}
+}
